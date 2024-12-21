@@ -1,0 +1,8 @@
+export const NO_CREDENTIAL_ERROR = 9000
+export const NO_DATUM_FOUND_ERROR = 9001
+
+export const NO_STAKE_FOUND_ERROR = 9100
+export const STAKE_ALREADY_FOUND_ERROR = 9101
+export const STAKE_IS_LOCKED_ERROR = 9102
+
+export const PROPOSAL_NOT_FOUND_ERROR = 9200

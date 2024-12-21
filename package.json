@@ -1,0 +1,41 @@
+{
+    "name": "agora-fastify-integration",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "start": "node --trace-warnings src/index.js",
+        "test": "node --trace-uncaught src/test.js"
+    },
+    "keywords": [],
+    "author": "",
+    "dependencies": {
+        "@apollo/client": "^3.6.9",
+        "@cardano-graphql/client-ts": "^6.2.0",
+        "@fastify/cors": "^7.0.0",
+        "@prisma/client": "^5.8.1",
+        "bottleneck": "^2.19.5",
+        "cross-fetch": "^3.1.5",
+        "fastify": "^3.29.0",
+        "fastify-oas": "^3.0.8",
+        "graphql": "^16.5.0",
+        "ioredis": "^5.2.4",
+        "jsonwebtoken": "^9.0.0",
+        "lodash.sample": "^4.2.1",
+        "lucid-cardano": "0.10.6",
+        "react": "^18.2.0",
+        "summon-client-sdk-nodejs": "^0.1.78"
+    },
+    "devDependencies": {
+        "@bundlr-network/client": "^0.7.14",
+        "@types/jsonwebtoken": "^9.0.2",
+        "@types/lodash.sample": "^4.2.7",
+        "@types/node": "^17.0.45",
+        "@types/node-fetch": "^2.6.2",
+        "dotenv": "^16.0.1",
+        "prisma": "^5.8.1",
+        "typescript": "^4.7.2"
+    }
+}

@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model community {
+  id                  String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  display_name        String         @db.VarChar(50)
+  description         String         @db.VarChar
+  profile_photo_url   String?        @db.VarChar(140)
+  created_at          DateTime       @default(now()) @db.Timestamptz(6)
+  verified            Boolean?       @default(false)
+  community_managers_id String       @db.Uuid
+  verified_name       String?        @unique
+  confirmed          Boolean?       @default(false)
+  managers           managers       @relation(fields: [community_managers_id], references: [id])
+  community_dao      community_dao[]
+  community_user     community_user[]
+}
+
+model community_dao {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+  community_id String    @db.Uuid
+  dao_id       String    @unique @db.Uuid
+  community    community @relation(fields: [community_id], references: [id])
+  dao          dao       @relation(fields: [dao_id], references: [id])
+}
+
+model dao {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  verified        Boolean        @default(false)
+  created_at      DateTime       @default(now()) @db.Timestamptz(6)
+  scriptparams_id String         @db.Uuid
+  confirm_hash    String
+  confirmed       Boolean        @default(false)
+  treasury_addr   String
+  references_id   String         @db.Uuid
+  community_dao   community_dao?
+  references      references     @relation(fields: [references_id], references: [id])
+  scriptparams    scriptparams   @relation(fields: [scriptparams_id], references: [id])
+}
+
+model references {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  governorRef  String?
+  stakeRef     String?
+  stakePol     String?
+  proposalRef  String?
+  proposalPol  String?
+  treasuryRef  String?
+  treasurySRef String?
+  authRef      String?
+  spendEffect  String?
+  mutateEffect String?
+  managerToken String?
+  governorPol  String?
+  dao          dao[]
+}
+
+model scriptparams {
+  id                String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  gis_tx_out_ref_id String     @db.VarChar(100)
+  gis_tx_out_ref_id_x Int
+  gt_class_ref1     String     @db.VarChar(150)
+  gt_class_ref2     String     @db.VarChar(150)
+  maximum_cosigners Int
+  dao               dao[]
+}
+
+model managers {
+  id                String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  manager_user_id   String?    @db.Uuid
+  community         community[]
+}
+
+model community_user {
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  community_id  String     @db.Uuid
+  summonuser_id String     @db.Uuid
+  community     community  @relation(fields: [community_id], references: [id])
+}
+
+model proposal {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tx_hash        String    @unique
+  proposal_id    Int
+  name           String?
+  description    String?   @db.VarChar
+  dao_id         String    @db.Uuid
+  discussion_url String?   @db.VarChar
+  confirmed      Boolean   @default(false)
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+}
